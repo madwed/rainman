@@ -14,18 +14,6 @@ function generateResponse(message) {
   };
 }
 
-function getLocationPermissionResponse() {
-  return {
-    version: '1.0',
-    response: {
-      card: {
-        type: 'AskForPermissionsConsent',
-        permissions: ['read::alexa:device:all:country_and_postal_code']
-      }
-    }
-  };
-}
-
 exports.handler = (event, context, callback) => {
   const {
     context: {
@@ -47,7 +35,7 @@ exports.handler = (event, context, callback) => {
   }).catch((e) => {
     console.warn(e);
     if (e === 'No location data') {
-      callback(null, getLocationPermissionResponse());
+      callback(null, generateResponse("Rain Man doesn't have permission to know where you are"));
     } else {
       callback(null, generateResponse("I'm sorry. I don't know right now"));
     }
