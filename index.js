@@ -15,16 +15,15 @@ function generateResponse(message) {
 }
 
 exports.handler = (event, context, callback) => {
-  const {
-    context: {
-      System: {
-        device: { deviceId },
-        user: { permissions: { consentToken } },
-      },
-    },
-  } = event;
+  const { context = {} } = event;
+  const { System = {} } = context;
+  const { device = {}, user = {} } = System;
+  const { permissions = {} } = user;
 
-  const locationData = new LocationData({ deviceId, consentToken });
+  const locationData = new LocationData({
+    consentToken: permissions.consentToken,
+    deviceId: device.deviceId,
+  });
 
   locationData.retrieve().then((data) => {
     const openWeather = new OpenWeather(data.postalCode);
