@@ -14,7 +14,7 @@ function generateResponse(message) {
   };
 }
 
-exports.handler = (event, context, callback) => {
+exports.handler = (event, lambdaContext, callback) => {
   const { context = {} } = event;
   const { System = {} } = context;
   const { device = {}, user = {} } = System;
